@@ -1,0 +1,43 @@
+{
+  "name": "ntrip-caster",
+  "version": "1.0.0",
+  "description": "ntrip app",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "dev": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anibal-Quiroz-P5/NTRIP-caster.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anibal-Quiroz-P5/NTRIP-caster/issues"
+  },
+  "homepage": "https://github.com/Anibal-Quiroz-P5/NTRIP-caster#readme",
+  "devDependencies": {
+    "javascript": "^1.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "bulma": "^0.9.3",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.4.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
+    "qs": "^6.10.1"
+  }
+}

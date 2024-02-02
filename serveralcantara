@@ -1,0 +1,48 @@
+// Importar las librerías necesarias
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+const axios = require('axios');
+
+// Crear la aplicación Express
+const app = express();
+
+// Servir archivos estáticos desde el directorio 'public'
+app.use(express.static('public'));
+
+// Crear un servidor HTTP
+const server = http.createServer(app);
+
+// Crear el servidor WebSocket
+const wss = new WebSocket.Server({ server });
+
+// Manejo de errores en el servidor WebSocket
+wss.on('error', function(error) {
+  console.error('Error en el servidor WebSocket:', error.message);
+});
+
+// Manejar la conexión al WebSocket
+wss.on('connection', function connection(ws) {
+  console.log('Conexión establecida con cliente WebSocket');
+
+// Conectar a la dirección NTRIP y recibir datos de la estación "ValenciaAlcantara"
+axios.post('http://193.144.251.13:2101', 'GET /ValenciaAlcantara HTTP/1.1\r\nNtrip-Version: Ntrip/2.0\r\nUser-Agent: NTRIP curl/7.58.0\r\nConnection: close\r\nAuthorization: Basic ' + Buffer.from('anquiz:vaal3').toString('base64') + '\r\n\r\n')
+.then(response => {
+  // Recibir los datos y enviarlos al cliente WebSocket
+  const data = response.data;
+  ws.send(data);
+})
+    .catch(error => {
+      console.error('Error al conectar con NTRIP:', error.message);
+    });
+});
+
+// Manejar la ruta de la raíz
+app.get('/', (req, res) => {
+  res.send('Hola Mundo');
+});
+
+// Iniciar el servidor
+server.listen(8080, function listening() {
+  console.log('Servidor iniciado en el puerto 8080');
+});

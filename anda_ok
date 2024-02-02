@@ -1,0 +1,65 @@
+//------------------------------------------------------------------------------------
+ //  EL SIGUIENTE CODIGOANDA OK OK OK OK OK OK PARA RECIBIR TODA LA TABLA
+// Importar las librerías necesarias
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+const axios = require('axios');
+
+// Crear la aplicación Express
+const app = express();
+
+// Servir archivos estáticos desde el directorio 'public'
+app.use(express.static('public'));
+
+// Crear un servidor HTTP
+const server = http.createServer(app);
+
+// Crear el servidor WebSocket
+const wss = new WebSocket.Server({ server });
+
+// Manejo de errores en el servidor WebSocket
+wss.on('error', function(error) {
+  console.error('Error en el servidor WebSocket:', error.message);
+});
+
+// Manejar la conexión al WebSocket
+wss.on('connection', function connection(ws) {
+  console.log('Conexión establecida con cliente WebSocket');
+
+  // Conectar a la dirección NTRIP y recibir datos
+ /*  axios.get('http://ntrip.ign.gob.ar:2101') */
+ 
+
+     axios.get('http://193.144.251.13:2101')
+
+
+     
+    .then(response => {
+      // Recibir los primeros 100 caracteres y enviarlos al cliente WebSocket
+      const data = response.data.slice(0, 40000);
+            // Imprimir los primeros 40000 caracteres en la consola del servidor
+            console.log('Primeros 40000 caracteres recibidos:', data);
+
+            // Enviar los primeros 40000 caracteres al cliente WebSocket
+            ws.send(data);
+    })
+
+
+    .catch(error => {
+      console.error('Error al conectar con NTRIP:', error.message);
+    });
+});
+
+// Manejar la ruta de la raíz
+app.get('/', (req, res) => {
+  res.send('Hola Mundo');
+});
+
+// Iniciar el servidor
+server.listen(8080, function listening() {
+  console.log('Servidor iniciado en el puerto 8080');
+});
+
+
+//------------------------------------------------------------------------------------

@@ -25,6 +25,8 @@
     "javascript": "^1.0.0"
   },
   "dependencies": {
+    "@gnss/rtcm": "^0.1.5",
+    "@ntrip/caster": "^0.3.2",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bulma": "^0.9.3",
@@ -38,6 +40,9 @@
     "mongoose": "^7.4.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
-    "qs": "^6.10.1"
+    "ntrip-client": "^1.1.1",
+    "ntrip-decoder": "^1.0.2",
+    "qs": "^6.10.1",
+    "ws": "^8.16.0"
   }
 }

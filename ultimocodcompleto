@@ -1,8 +1,7 @@
-/* // Archivo: server.js
-
 // Importar las librerías necesarias
 const express = require('express');
 const NTRIP = require('ntrip-client');
+const axios = require('axios');
 
 // Configuración del servidor principal
 const app = express();
@@ -26,7 +25,6 @@ const ntrip = new NTRIP({
   serverType: 'Caster',
   serverVersion: '1.0.0',
   serverDescription: 'My NTRIP Caster',
-  serverUrl: 'http://localhost:3000',
   serverLogLevel: 'info',
   serverLogFile: 'ntrip.log',
   serverLogRotate: true,
@@ -71,45 +69,23 @@ ntrip.on('mountPointConnected', (mountPoint, client) => {
   }
 });
 
+// Conectar al servidor NTRIP Caster del IGN
+const username = 'anquiz';
+const password = 'vaal3';
+const serverUrl = 'http://193.144.251.13:2101';
+
+axios.get(serverUrl, {
+  auth: {
+    username: username,
+    password: password
+  }
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error('Error de conexión:', error);
+});
+
 // Iniciar el servidor NTRIP Caster
-ntrip.start(); */
-
-
-//  ---------------------------------------------------------------------------------------------------
-
-
-const { NtripClient } = require('ntrip-client');
-
-const options = {
-/*   host: 'rtk2go.com',
-  port: 2101,
-  mountpoint: '',
-  username: 'test@test.com',
-  password: 'test' */
-
-  host: '193.144.251.13',
-  port: 2101,
-  mountpoint: 'TUD10',
-  /* mountpoint: '', */
-  username: 'anquiz',
-  password: 'vaal3'
-};
-
-const client = new NtripClient(options);
-
-client.on('data', (data) => {
-  console.log(data);
-});
-
-client.on('close', () => {
-  console.log('client close');
-});
-
-client.on('error', (err) => {
-  console.log(err);
-});
-
-client.run();
-
-
-//  -------------------------------------------------------------------------------------------------
+ntrip.start();
